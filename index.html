@@ -1,5 +1,168 @@
 <!DOCTYPE html>
-<html>
-<head><title>My First Project</title></head>
-<body><h1>Hello👋</h1><p>This is my first project on Goodwall.</p></body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Character Wheel</title>
+<style>
+body {
+  margin: 0;
+  background: #00ff00; /* GREEN SCREEN */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial;
+}
+
+/* ===== STATS ===== */
+.stats {
+  width: 250px;
+  margin-bottom: 30px;
+}
+
+.stat {
+  margin: 8px 0;
+}
+
+.label {
+  color: white;
+  font-size: 14px;
+}
+
+.bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: cyan;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+/* ===== WHEEL ===== */
+.wheel {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  border: 6px solid white;
+}
+
+.slice {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+.slice img {
+  position: absolute;
+  width: 80px;
+  left: 60%;
+  top: 35%;
+  transform: translate(-50%, -50%);
+}
+
+/* Colors */
+.s1 { background: #ff5c5c; transform: rotate(0deg); }
+.s2 { background: #ffa64d; transform: rotate(72deg); }
+.s3 { background: #4da6ff; transform: rotate(144deg); }
+.s4 { background: #000; transform: rotate(216deg); }
+.s5 { background: #66ff66; transform: rotate(288deg); }
+
+/* Selected effect */
+.active {
+  filter: brightness(1.4);
+  box-shadow: 0 0 20px white;
+  z-index: 2;
+}
+
+.dim {
+  filter: brightness(0.5);
+}
+
+/* BUTTON */
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== STATS ===== -->
+<div class="stats">
+  <div class="stat"><div class="label">Special</div><div class="bar-bg"><div class="bar" id="s"></div></div></div>
+  <div class="stat"><div class="label">Stamina</div><div class="bar-bg"><div class="bar" id="st"></div></div></div>
+  <div class="stat"><div class="label">Shooting</div><div class="bar-bg"><div class="bar" id="sh"></div></div></div>
+  <div class="stat"><div class="label">Strength</div><div class="bar-bg"><div class="bar" id="str"></div></div></div>
+  <div class="stat"><div class="label">Stealth</div><div class="bar-bg"><div class="bar" id="ste"></div></div></div>
+  <div class="stat"><div class="label">Flying</div><div class="bar-bg"><div class="bar" id="f"></div></div></div>
+  <div class="stat"><div class="label">Driving</div><div class="bar-bg"><div class="bar" id="d"></div></div></div>
+  <div class="stat"><div class="label">Lung Capacity</div><div class="bar-bg"><div class="bar" id="l"></div></div></div>
+</div>
+
+<!-- ===== WHEEL ===== -->
+<div class="wheel" id="wheel">
+  <div class="slice s1 active"><img src="https://i.imgur.com/8Qf6R8P.png"></div>
+  <div class="slice s2 dim"><img src="https://i.imgur.com/8Qf6R8P.png"></div>
+  <div class="slice s3 dim"><img src="https://i.imgur.com/8Qf6R8P.png"></div>
+  <div class="slice s4 dim"><img src="https://i.imgur.com/8Qf6R8P.png"></div>
+  <div class="slice s5 dim"><img src="https://i.imgur.com/8Qf6R8P.png"></div>
+</div>
+
+<button onclick="next()">Switch Character</button>
+
+<script>
+let index = 0;
+
+const data = [
+  [80,70,90,85,95,40,60,70],
+  [60,50,40,70,100,10,80,30],
+  [90,80,60,75,65,20,90,50],
+  [50,60,85,55,40,70,60,80],
+  [70,90,75,80,85,30,50,60]
+];
+
+function updateBars(values) {
+  const ids = ["s","st","sh","str","ste","f","d","l"];
+  ids.forEach((id,i)=>{
+    document.getElementById(id).style.width = values[i] + "%";
+  });
+}
+
+function next() {
+  let slices = document.querySelectorAll(".slice");
+  
+  slices.forEach(s=>{
+    s.classList.remove("active");
+    s.classList.add("dim");
+  });
+
+  index = (index + 1) % slices.length;
+
+  slices[index].classList.add("active");
+  slices[index].classList.remove("dim");
+
+  updateBars(data[index]);
+}
+
+updateBars(data[0]);
+</script>
+
+</body>
 </html>
