@@ -1,35 +1,30 @@
-const charData = [
-    { name: "Top", color: "#fb7070", stats: [70, 60, 80, 50, 90, 20, 40, 30] },
-    { name: "Right", color: "#70c8fb", stats: [40, 30, 50, 40, 95, 10, 80, 20] },
-    { name: "Left", color: "#fbb470", stats: [60, 85, 45, 70, 30, 40, 20, 60] }
+const data = [
+    { color: "#ff5e5e", stats: [65, 50, 80, 40, 90, 30, 60, 20] }, // Red Char
+    { color: "#64ccff", stats: [40, 35, 60, 45, 95, 20, 75, 40] }, // Blue Char
+    { color: "#ffac5e", stats: [75, 80, 50, 70, 40, 60, 30, 80] }  // Orange Char
 ];
 
-const statIds = ['s-special', 's-stamina', 's-shooting', 's-strength', 's-stealth', 's-flying', 's-diving', 's-lung'];
-const segments = document.querySelectorAll('.segment');
-let current = 0;
+const barIds = ['s-special', 's-stamina', 's-shooting', 's-strength', 's-stealth', 's-flying', 's-diving', 's-lung'];
+let idx = 0;
 
-function switchCharacter() {
-    // Reset classes
-    segments.forEach(s => s.classList.remove('active'));
+function update() {
+    const slices = document.querySelectorAll('.slice');
+    slices.forEach(s => s.classList.remove('active'));
     
-    // Select next (loop 0, 1, 2 - skipping index 3 bottom)
-    const data = charData[current];
-    const activeSeg = document.querySelector(`.segment[data-id="${current}"]`);
-    
-    if (activeSeg) {
-        activeSeg.classList.add('active');
-        
-        // Update Stats
-        statIds.forEach((id, index) => {
-            const bar = document.getElementById(id);
-            bar.style.width = data.stats[index] + '%';
-            bar.style.backgroundColor = data.color;
-        });
-    }
+    // Switch character (cycling 0, 1, 2)
+    const activeSlice = document.querySelector(`.slice[data-id="${idx}"]`);
+    activeSlice.classList.add('active');
 
-    current = (current + 1) % 3;
+    const currentData = data[idx];
+    
+    barIds.forEach((id, i) => {
+        const bar = document.getElementById(id);
+        bar.style.width = currentData.stats[i] + '%';
+        bar.style.backgroundColor = currentData.color;
+    });
+
+    idx = (idx + 1) % 3;
 }
 
-// Start the loop
-setInterval(switchCharacter, 1500);
-switchCharacter();
+setInterval(update, 1500);
+update();
