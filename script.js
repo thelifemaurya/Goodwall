@@ -1,39 +1,35 @@
-const characters = [
-    { name: "MICHAEL", stats: [80, 40, 90, 30, 20] }, // Top
-    { name: "TREVOR", stats: [95, 60, 70, 80, 10] },  // Right
-    { name: "FRANKLIN", stats: [50, 90, 60, 50, 80] }, // Left
-    { name: "", stats: [0, 0, 0, 0, 0] }               // Bottom (Empty)
+const charData = [
+    { name: "Top", color: "#fb7070", stats: [70, 60, 80, 50, 90, 20, 40, 30] },
+    { name: "Right", color: "#70c8fb", stats: [40, 30, 50, 40, 95, 10, 80, 20] },
+    { name: "Left", color: "#fbb470", stats: [60, 85, 45, 70, 30, 40, 20, 60] }
 ];
 
-let currentIndex = 0;
-const segments = document.querySelectorAll('.wheel-segment');
-const bars = ['special', 'stamina', 'shooting', 'strength', 'stealth'];
+const statIds = ['s-special', 's-stamina', 's-shooting', 's-strength', 's-stealth', 's-flying', 's-diving', 's-lung'];
+const segments = document.querySelectorAll('.segment');
+let current = 0;
 
-function updateUI(index) {
-    // Update Wheel Selection
-    segments.forEach(seg => seg.classList.remove('active'));
+function switchCharacter() {
+    // Reset classes
+    segments.forEach(s => s.classList.remove('active'));
     
-    // Find the segment with the matching data-id
-    const activeSeg = document.querySelector(`.wheel-segment[data-id="${index}"]`);
-    if(activeSeg) activeSeg.classList.add('active');
+    // Select next (loop 0, 1, 2 - skipping index 3 bottom)
+    const data = charData[current];
+    const activeSeg = document.querySelector(`.segment[data-id="${current}"]`);
+    
+    if (activeSeg) {
+        activeSeg.classList.add('active');
+        
+        // Update Stats
+        statIds.forEach((id, index) => {
+            const bar = document.getElementById(id);
+            bar.style.width = data.stats[index] + '%';
+            bar.style.backgroundColor = data.color;
+        });
+    }
 
-    // Update Stats
-    const char = characters[index];
-    document.getElementById('charName').innerText = char.name;
-    
-    bars.forEach((stat, i) => {
-        const barFill = document.getElementById(`stat-${stat}`);
-        barFill.style.width = char.stats[i] + '%';
-    });
+    current = (current + 1) % 3;
 }
 
-// Auto-switch interval
-setInterval(() => {
-    // Switch between 0, 1, 2 (Skip 3 as it's the empty black section)
-    currentIndex = (currentIndex + 1) % 3; 
-    updateUI(currentIndex);
-}, 1500);
-
-// Initialize
-updateUI(0);
-
+// Start the loop
+setInterval(switchCharacter, 1500);
+switchCharacter();
