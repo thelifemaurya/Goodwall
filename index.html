@@ -1,171 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>GTA Wheel</title>
-
-<style>
-body{
-  margin:0;
-  background:#00ff00; /* GREEN SCREEN */
-  font-family:Arial;
-}
-
-/* ===== STATS BOX ===== */
-.stats-box{
-  position:absolute;
-  top:40px;
-  left:50%;
-  transform:translateX(-50%);
-  width:260px;
-  background:rgba(0,0,0,0.8);
-  padding:12px;
-  border-radius:4px;
-}
-
-.stat{
-  margin:6px 0;
-}
-
-.label{
-  color:white;
-  font-weight:bold;
-  font-size:14px;
-}
-
-.bar-bg{
-  width:100%;
-  height:8px;
-  background:rgba(255,255,255,0.2);
-}
-
-.bar{
-  height:100%;
-  width:0%;
-  background:#ff6b6b;
-  transition:0.4s;
-}
-
-/* ===== WHEEL ===== */
-.wheel{
-  position:absolute;
-  bottom:40px;
-  left:50%;
-  transform:translateX(-50%);
-  width:260px;
-  height:260px;
-  border-radius:50%;
-  overflow:hidden;
-  border:6px solid white;
-}
-
-/* 4 PARTS */
-.part{
-  position:absolute;
-  width:100%;
-  height:100%;
-  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
-  transform-origin:center;
-  transition:0.3s;
-}
-
-.top{ background:#8B2C2C; transform:rotate(-90deg);}
-.left{ background:#f08c2e; transform:rotate(180deg);}
-.right{ background:#5aa9d6; transform:rotate(0deg);}
-.bottom{ background:black; transform:rotate(90deg);}
-
-/* IMAGES */
-.part img{
-  position:absolute;
-  width:80px;
-  left:60%;
-  top:40%;
-  transform:translate(-50%,-50%);
-}
-
-/* EFFECTS */
-.active{
-  filter:brightness(1.3);
-  box-shadow:0 0 20px white;
-  z-index:2;
-}
-
-.dim{
-  filter:brightness(0.4);
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA V UI Concept</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="ui-container">
+        <div class="stats-panel" id="statsPanel">
+            <h2 id="charName">CHARACTER</h2>
+            <div class="stat-row"><span>SPECIAL</span><div class="bar"><div class="fill" id="stat-special"></div></div></div>
+            <div class="stat-row"><span>STAMINA</span><div class="bar"><div class="fill" id="stat-stamina"></div></div></div>
+            <div class="stat-row"><span>SHOOTING</span><div class="bar"><div class="fill" id="stat-shooting"></div></div></div>
+            <div class="stat-row"><span>STRENGTH</span><div class="bar"><div class="fill" id="stat-strength"></div></div></div>
+            <div class="stat-row"><span>STEALTH</span><div class="bar"><div class="fill" id="stat-stealth"></div></div></div>
+        </div>
 
-<!-- ===== STATS ===== -->
-<div class="stats-box">
-  <div class="stat"><div class="label">Special</div><div class="bar-bg"><div class="bar" id="s"></div></div></div>
-  <div class="stat"><div class="label">Stamina</div><div class="bar-bg"><div class="bar" id="st"></div></div></div>
-  <div class="stat"><div class="label">Shooting</div><div class="bar-bg"><div class="bar" id="sh"></div></div></div>
-  <div class="stat"><div class="label">Strength</div><div class="bar-bg"><div class="bar" id="str"></div></div></div>
-  <div class="stat"><div class="label">Stealth</div><div class="bar-bg"><div class="bar" id="ste"></div></div></div>
-</div>
-
-<!-- ===== WHEEL ===== -->
-<div class="wheel">
-
-  <div class="part top active">
-    <img src="char1.png">
-  </div>
-
-  <div class="part left dim">
-    <img src="char2.png">
-  </div>
-
-  <div class="part right dim">
-    <img src="char3.png">
-  </div>
-
-  <div class="part bottom dim"></div>
-
-</div>
-
-<script>
-
-let index = 0;
-
-const parts = document.querySelectorAll(".part");
-
-const stats = [
-  [80,70,90,60,85], // char1
-  [60,50,40,80,90], // char2
-  [90,80,60,75,70]  // char3
-];
-
-function updateBars(data){
-  let ids=["s","st","sh","str","ste"];
-  ids.forEach((id,i)=>{
-    document.getElementById(id).style.width=data[i]+"%";
-  });
-}
-
-function switchChar(){
-  parts.forEach(p=>{
-    p.classList.remove("active");
-    p.classList.add("dim");
-  });
-
-  index = (index+1)%3;
-
-  parts[index].classList.add("active");
-  parts[index].classList.remove("dim");
-
-  updateBars(stats[index]);
-}
-
-/* AUTO ANIMATION */
-setInterval(switchChar, 1500);
-
-updateBars(stats[0]);
-
-</script>
-
+        <div class="wheel-outer">
+            <div class="wheel-segment top" data-id="0">
+                <img src="char1.png" alt="Top">
+            </div>
+            <div class="wheel-segment right" data-id="1">
+                <img src="char3.png" alt="Right">
+            </div>
+            <div class="wheel-segment bottom" data-id="3">
+                </div>
+            <div class="wheel-segment left" data-id="2">
+                <img src="char2.png" alt="Left">
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
