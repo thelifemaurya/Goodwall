@@ -15,6 +15,88 @@ body {
     flex-direction: column;
     align-items: center;
 }
+/* Existing body and stats-box rules stay the same */
+
+/* Wheel Layout (Center of the wheel) */
+.wheel {
+    position: relative;
+    width: 250px; /* Slightly bigger per reference */
+    height: 250px;
+    border-radius: 50%;
+    /* Keep white border lines and external edge separate */
+    overflow: hidden; 
+    background: #000;
+}
+
+/* Slices (They no longer have <img> tags) */
+.slice {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease-out; /* Crucial for pop-up speed */
+    /* Clip regions diagonal crosshair */
+    z-index: 1; 
+}
+
+/* Default state: Dimm and no scaling */
+.slice.active {
+    z-index: 2; /* selected slice is on top */
+}
+
+/* Select Region Pop-up (Scale outward) and color-matched edge glow */
+/* Key logic: transform origin is center, we scale outward on active */
+
+.slice.top {
+    background: #8e3535; clip-path: polygon(50% 50%, 0 0, 100% 0);
+    transform-origin: center;
+}
+.slice.top.active {
+    transform: translateY(-8px) scale(1.03); /* Subtle up/out 'pop' */
+    filter: drop-shadow(0 -5px 15px rgba(255, 94, 94, 0.7)); /* Top Edge Glow */
+}
+
+.slice.right {
+    background: #4e8ba7; clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+    transform-origin: center;
+}
+.slice.right.active {
+    transform: translateX(8px) scale(1.03); /* Pop-out right */
+    filter: drop-shadow(5px 0 15px rgba(100, 204, 255, 0.7)); /* Right Edge Glow */
+}
+
+.slice.left {
+    background: #b9762e; clip-path: polygon(50% 50%, 0 0, 0 100%);
+    transform-origin: center;
+}
+.slice.left.active {
+    transform: translateX(-8px) scale(1.03); /* Pop-out left */
+    filter: drop-shadow(-5px 0 15px rgba(255, 172, 94, 0.7)); /* Left Edge Glow */
+}
+
+.slice.bottom { background: #000; clip-path: polygon(50% 50%, 0 100%, 100% 100%); }
+/* Skip pop-up logic for bottom empty black slot */
+
+/* Image Fix: Central Circular Mask per reference */
+.wheel-char-img {
+    position: absolute;
+    top: 5%; left: 5%; width: 90%; height: 90%; /* centralize */
+    border-radius: 50%; /* Make circular mask *within* the regions */
+    object-fit: cover; /* Important: fill the circle */
+    z-index: 0; /* image is *behind* the dividers/regions */
+}
+
+.border-lines {
+    /* Keep existing border lines but move them *above* the image but *below* slice pop-up shadows */
+    z-index: 3;
+    pointer-events: none;
+    background: 
+        linear-gradient(45deg, transparent 49.5%, white 49.5%, white 50.5%, transparent 50.5%),
+        linear-gradient(-45deg, transparent 49.5%, white 49.5%, white 50.5%, transparent 50.5%);
+    border: 3px solid white; /* external boundary */
+    box-sizing: border-box; 
+    border-radius: 50%;
+}
+
 
 /* Narrower, taller stats box per reference */
 .stats-box {
