@@ -3,36 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTA V Character Selection</title>
+    <title>GTA V Master UI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="ui-wrapper">
-        <div class="stats-box" id="statsBox">
-            <div class="stat-group"><span>Special</span><div class="bg"><div class="fill" id="s-special"></div></div></div>
-            <div class="stat-group"><span>Stamina</span><div class="bg"><div class="fill" id="s-stamina"></div></div></div>
-            <div class="stat-group"><span>Shooting</span><div class="bg"><div class="fill" id="s-shooting"></div></div></div>
-            <div class="stat-group"><span>Strength</span><div class="bg"><div class="fill" id="s-strength"></div></div></div>
-            <div class="stat-group"><span>Stealth</span><div class="bg"><div class="fill" id="s-stealth"></div></div></div>
-            <div class="stat-group"><span>Flying</span><div class="bg"><div class="fill" id="s-flying"></div></div></div>
-            <div class="stat-group"><span>Diving</span><div class="bg"><div class="fill" id="s-diving"></div></div></div>
-            <div class="stat-group"><span>Lung capacity</span><div class="bg"><div class="fill" id="s-lung"></div></div></div>
+    <div class="main-screen">
+        <div class="stats-panel" id="statsBox">
+            <div class="stat-row"><span>Special</span><div class="bar-bg"><div class="bar-fill" id="s-special"></div></div></div>
+            <div class="stat-row"><span>Stamina</span><div class="bar-bg"><div class="bar-fill" id="s-stamina"></div></div></div>
+            <div class="stat-row"><span>Shooting</span><div class="bar-bg"><div class="bar-fill" id="s-shooting"></div></div></div>
+            <div class="stat-row"><span>Strength</span><div class="bar-bg"><div class="bar-fill" id="s-strength"></div></div></div>
+            <div class="stat-row"><span>Stealth</span><div class="bar-bg"><div class="bar-fill" id="s-stealth"></div></div></div>
+            <div class="stat-row"><span>Flying</span><div class="bar-bg"><div class="bar-fill" id="s-flying"></div></div></div>
+            <div class="stat-row"><span>Diving</span><div class="bar-bg"><div class="bar-fill" id="s-diving"></div></div></div>
+            <div class="stat-row"><span>Lung Capacity</span><div class="bar-bg"><div class="bar-fill" id="s-lung"></div></div></div>
         </div>
 
-        <div class="wheel-container">
-            <div class="wheel">
-                <div class="slice top active" data-id="0">
-                    <img src="char1.png" class="char-img">
-                </div>
-                <div class="slice right" data-id="1">
-                    <img src="char3.png" class="char-img">
-                </div>
-                <div class="slice left" data-id="2">
-                    <img src="char2.png" class="char-img">
-                </div>
+        <div class="wheel-box">
+            <div class="character-wheel">
+                <div class="slice top active" data-id="0"><img src="char1.png" alt="C1"></div>
+                <div class="slice right" data-id="1"><img src="char3.png" alt="C3"></div>
+                <div class="slice left" data-id="2"><img src="char2.png" alt="C2"></div>
                 <div class="slice bottom" data-id="3"></div>
                 
-                <div class="border-lines"></div>
+                <div class="crosshair"></div>
             </div>
         </div>
     </div>
