@@ -2,164 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GTA V Final Fix</title>
-    <style>
-        /* 1. RESET & MOBILE BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: #00FF00; /* Green Screen */
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 30px;
-            font-family: 'Arial Narrow', sans-serif;
-            overflow: hidden;
-        }
-
-        /* 2. STATS BOX (FIXED FOR MOBILE) */
-        .stats-box {
-            background: rgba(10, 10, 10, 0.9);
-            width: 220px;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 2px;
-        }
-        .stat-row { margin-bottom: 10px; }
-        .stat-row span {
-            color: white; font-size: 11px; font-weight: bold;
-            text-transform: uppercase; display: block; margin-bottom: 4px;
-        }
-        .bar-bg { width: 100%; height: 10px; background: rgba(255,255,255,0.1); }
-        .bar-fill { height: 100%; width: 0%; transition: width 0.5s ease; }
-
-        /* 3. THE WHEEL (AE LOGIC) */
-        .wheel-container {
-            position: relative;
-            width: 280px;
-            height: 280px;
-        }
-
-        .wheel-base {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #000;
-            border: 4px solid white;
-            overflow: hidden; /* Image hamesha circle mein rahegi */
-        }
-
-        /* Sabse niche image rahegi */
-        .main-char-img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-
-        /* Image ke upar color slices */
-        .overlay-slice {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            opacity: 0.5;
-            transition: all 0.25s cubic-bezier(0.17, 0.89, 0.32, 1.28);
-        }
-
-        /* Clipping */
-        .top { clip-path: polygon(50% 50%, 0 0, 100% 0); background: #8e3535; }
-        .right { clip-path: polygon(50% 50%, 100% 0, 100% 100%); background: #4e8ba7; }
-        .left { clip-path: polygon(50% 50%, 0 0, 0 100%); background: #b9762e; }
-        .bottom { clip-path: polygon(50% 50%, 0 100%, 100% 100%); background: #000; }
-
-        /* SELECTED STATE (POP & GLOW) */
-        .active {
-            opacity: 0.8; /* Color thoda dark hoga jab select hoga */
-            z-index: 5;
-        }
-
-        .top.active { transform: translateY(-10px); filter: drop-shadow(0 0 15px #ff5e5e); }
-        .right.active { transform: translateX(10px); filter: drop-shadow(0 0 15px #64ccff); }
-        .left.active { transform: translateX(-10px); filter: drop-shadow(0 0 15px #ffac5e); }
-
-        /* Crosshair Lines */
-        .divider-lines {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 6;
-            background: 
-                linear-gradient(45deg, transparent 49.5%, white 49.5%, white 50.5%, transparent 50.5%),
-                linear-gradient(-45deg, transparent 49.5%, white 49.5%, white 50.5%, transparent 50.5%);
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA V Stats Animation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="stats-box">
-        <div class="stat-row"><span>Special</span><div class="bar-bg"><div class="bar-fill" id="s-special"></div></div></div>
-        <div class="stat-row"><span>Stamina</span><div class="bar-bg"><div class="bar-fill" id="s-stamina"></div></div></div>
-        <div class="stat-row"><span>Shooting</span><div class="bar-bg"><div class="bar-fill" id="s-shooting"></div></div></div>
-        <div class="stat-row"><span>Strength</span><div class="bar-bg"><div class="bar-fill" id="s-strength"></div></div></div>
-        <div class="stat-row"><span>Stealth</span><div class="bar-bg"><div class="bar-fill" id="s-stealth"></div></div></div>
-        <div class="stat-row"><span>Flying</span><div class="bar-bg"><div class="bar-fill" id="s-flying"></div></div></div>
-        <div class="stat-row"><span>Diving</span><div class="bar-bg"><div class="bar-fill" id="s-diving"></div></div></div>
-        <div class="stat-row"><span>Lung Capacity</span><div class="bar-bg"><div class="bar-fill" id="s-lung"></div></div></div>
-    </div>
-
-    <div class="wheel-container">
-        <div class="wheel-base">
-            <img src="char1.png" class="main-char-img" id="charDisplay">
-            
-            <div class="overlay-slice top active" data-id="0"></div>
-            <div class="overlay-slice right" data-id="1"></div>
-            <div class="overlay-slice left" data-id="2"></div>
-            <div class="overlay-slice bottom" data-id="3"></div>
-            
-            <div class="divider-lines"></div>
+    <div class="stats-wrapper">
+        <div class="stats-box">
+            <div class="stat-group"><span>Special</span><div class="bg"><div class="fill" id="s-special"></div></div></div>
+            <div class="stat-group"><span>Stamina</span><div class="bg"><div class="fill" id="s-stamina"></div></div></div>
+            <div class="stat-group"><span>Shooting</span><div class="bg"><div class="fill" id="s-shooting"></div></div></div>
+            <div class="stat-group"><span>Strength</span><div class="bg"><div class="fill" id="s-strength"></div></div></div>
+            <div class="stat-group"><span>Stealth</span><div class="bg"><div class="fill" id="s-stealth"></div></div></div>
+            <div class="stat-group"><span>Flying</span><div class="bg"><div class="fill" id="s-flying"></div></div></div>
+            <div class="stat-group"><span>Diving</span><div class="bg"><div class="fill" id="s-diving"></div></div></div>
+            <div class="stat-group"><span>Lung capacity</span><div class="bg"><div class="fill" id="s-lung"></div></div></div>
         </div>
     </div>
-
-    <script>
-        const data = [
-            { img: "char1.png", color: "#ff5e5e", stats: [70, 80, 90, 50, 40, 60, 30, 85] },
-            { img: "char3.png", color: "#64ccff", stats: [40, 60, 50, 80, 95, 20, 70, 40] },
-            { img: "char2.png", color: "#ffac5e", stats: [85, 40, 60, 70, 50, 90, 20, 95] }
-        ];
-
-        const barIds = ['s-special', 's-stamina', 's-shooting', 's-strength', 's-stealth', 's-flying', 's-diving', 's-lung'];
-        let idx = 0;
-
-        function update() {
-            // Slices reset
-            const slices = document.querySelectorAll('.overlay-slice');
-            slices.forEach(s => s.classList.remove('active'));
-
-            // New slice active
-            const currentSlice = document.querySelector(`.overlay-slice[data-id="${idx}"]`);
-            if(currentSlice) currentSlice.classList.add('active');
-
-            // Update Image
-            document.getElementById('charDisplay').src = data[idx].img;
-
-            // Update Bars
-            const currentData = data[idx];
-            barIds.forEach((id, i) => {
-                const bar = document.getElementById(id);
-                bar.style.width = currentData.stats[i] + '%';
-                bar.style.backgroundColor = currentData.color;
-            });
-
-            idx = (idx + 1) % 3;
-        }
-
-        setInterval(update, 2000);
-        update();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
